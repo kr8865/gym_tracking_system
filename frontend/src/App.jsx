@@ -1,31 +1,39 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
-import TrainerPage from './pages/TrainerPage'
-import AdminPage from './pages/AdminPage'
-import MemberPage from './pages/MemberPage'
-import MembershipPurchasePage from './pages/MembershipPurchasePage'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Dashboard from './pages/Dashboard'
+import AdminDashboard from './pages/AdminDashboard'
+import TrainerDashboard from './pages/TrainerDashboard'
 
 function App() {
   return (
     <div className="app-container">
-      <nav className="p-4 bg-gray-100 mb-4">
-        <ul className="flex gap-4">
-          <li><Link to="/trainer" className="text-blue-500 hover:underline">Trainer</Link></li>
-          <li><Link to="/admin" className="text-blue-500 hover:underline">Admin</Link></li>
-          <li><Link to="/member" className="text-blue-500 hover:underline">Member</Link></li>
-          <li><Link to="/membership-purchase" className="text-blue-500 hover:underline">Membership Purchase</Link></li>
-        </ul>
-      </nav>
-
       <Routes>
-        <Route path="/trainer" element={<TrainerPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/member" element={<MemberPage />} />
-        <Route path="/membership-purchase" element={<MembershipPurchasePage />} />
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        
+        {/* Dashboard Routes */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/trainer" element={<TrainerDashboard />} />
+        
+        {/* Home Route */}
         <Route path="/" element={
-          <div className="p-4">
-            <h1 className="text-2xl font-bold">Welcome to Gym Tracking System</h1>
-            <p>Select a role above to proceed.</p>
+          <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
+            <div className="text-center text-white">
+              <h1 className="text-6xl font-bold mb-4">🏋️ Gym Tracking System</h1>
+              <p className="text-2xl mb-8">Track Your Fitness Journey</p>
+              <div className="space-x-4">
+                <Link to="/login" className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                  Login
+                </Link>
+                <Link to="/signup" className="bg-blue-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-800 transition">
+                  Sign Up
+                </Link>
+              </div>
+            </div>
           </div>
         } />
       </Routes>
