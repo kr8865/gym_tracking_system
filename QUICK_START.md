@@ -26,18 +26,27 @@ Visit: **http://localhost:5173**
 
 ## 🧪 Test the App
 
+### **IMPORTANT FIRST STEP:** Create Demo Accounts
+1. Visit: `http://localhost:5173`
+2. Click the green **"🎯 Create Demo Accounts"** button on the landing page
+3. This will create 3 test accounts in your browser (localStorage)
+4. Now you can login with the credentials below!
+
 ### Landing Page
 - URL: `http://localhost:5173`
 - Features: Hero section, features grid, stats, CTA buttons
+- **Action:** Click "Create Demo Accounts" button first!
 
 ### Signup
 - URL: `http://localhost:5173/signup`
-- Create account with email/password
+- Create account with any email/password (stored in browser)
 - Select role: Member, Trainer, or Admin
+- Works instantly - no Firebase needed!
 
 ### Login
 - URL: `http://localhost:5173/login`
-- Use demo credentials (see below)
+- **FIRST:** Click "Create Demo Accounts" on landing page
+- **THEN:** Use demo credentials (see below)
 - Redirects to role-based dashboard
 
 ### Member Dashboard
@@ -80,7 +89,7 @@ Admin:
   Role: admin
 ```
 
-**Note**: Firebase auth not fully configured in demo, use any email/password to create test accounts
+**Note**: Using mock authentication (localStorage) - no Firebase setup needed! Just create accounts and login.
 
 ---
 
