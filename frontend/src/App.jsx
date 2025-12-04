@@ -1,32 +1,74 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import Header from './components/shared/Header'
+import ProtectedRoute from './components/shared/ProtectedRoute'
 import './App.css'
+
+// Auth pages
+import Landing from './pages/Landing'
+import Login from './pages/auth/Login'
+import Signup from './pages/auth/Signup'
+
+// Dashboards
+import MemberDashboard from './pages/member/Dashboard'
+import AdminDashboard from './pages/admin/Dashboard'
+import TrainerDashboard from './pages/trainer/Dashboard'
+
+// Legacy pages (keeping for reference)
 import TrainerPage from './pages/TrainerPage'
 import AdminPage from './pages/AdminPage'
 import MemberPage from './pages/MemberPage'
 import MembershipPurchasePage from './pages/MembershipPurchasePage'
-import ProgressDashboard from './components/ProgressDashboard'
 
 function App() {
   return (
-    <div className="app-container">
-      <nav className="p-4 bg-gray-100 mb-4">
-        <ul className="flex gap-4">
-          <li><Link to="/" className="text-blue-500 hover:underline">Dashboard</Link></li>
-          <li><Link to="/trainer" className="text-blue-500 hover:underline">Trainer</Link></li>
-          <li><Link to="/admin" className="text-blue-500 hover:underline">Admin</Link></li>
-          <li><Link to="/member" className="text-blue-500 hover:underline">Member</Link></li>
-          <li><Link to="/membership-purchase" className="text-blue-500 hover:underline">Membership Purchase</Link></li>
-        </ul>
-      </nav>
+    <AuthProvider>
+      <div className="app-container">
+        <Header />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-      <Routes>
-        <Route path="/trainer" element={<TrainerPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/member" element={<MemberPage />} />
-        <Route path="/membership-purchase" element={<MembershipPurchasePage />} />
-        <Route path="/" element={<ProgressDashboard />} />
-      </Routes>
-    </div>
+          {/* Protected Member Routes */}
+          <Route
+            path="/member"
+            element={
+              <ProtectedRoute requiredRole="member">
+                <MemberDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Protected Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Protected Trainer Routes */}
+          <Route
+            path="/trainer"
+            element={
+              <ProtectedRoute requiredRole="trainer">
+                <TrainerDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Legacy Routes (keeping for backward compatibility) */}
+          <Route path="/legacy/trainer" element={<TrainerPage />} />
+          <Route path="/legacy/admin" element={<AdminPage />} />
+          <Route path="/legacy/member" element={<MemberPage />} />
+          <Route path="/legacy/membership-purchase" element={<MembershipPurchasePage />} />
+        </Routes>
+      </div>
+    </AuthProvider>
   )
 }
 
