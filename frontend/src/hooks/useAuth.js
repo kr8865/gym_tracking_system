@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+// Using Mock Auth for demo (no Firebase needed)
+import { AuthContext } from '../context/MockAuthContext';
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
