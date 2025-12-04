@@ -52,13 +52,29 @@ export const AuthProvider = ({ children }) => {
       const user = userCredential.user;
 
       // Get user role from Firestore
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (userDoc.exists()) {
-        setUserRole(userDoc.data().role);
+      let role = 'member'; // Default role
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists()) {
+          role = userDoc.data().role;
+          setUserRole(role);
+        } else {
+          // If user doesn't exist in Firestore, create basic document
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user.uid,
+            email: user.email,
+            role: 'member',
+            createdAt: new Date(),
+          });
+          setUserRole('member');
+        }
+      } catch (firestoreErr) {
+        console.warn('Firestore access error, using default role:', firestoreErr);
+        setUserRole('member');
       }
 
       setCurrentUser(user);
-      return user;
+      return { user, role };
     } catch (err) {
       setError(err.message);
       throw err;
@@ -85,9 +101,17 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(user);
         
         // Get user role from Firestore
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          setUserRole(userDoc.data().role);
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setUserRole(userDoc.data().role);
+          } else {
+            // Default to member if no Firestore document exists
+            setUserRole('member');
+          }
+        } catch (firestoreErr) {
+          console.warn('Firestore access error, using default role:', firestoreErr);
+          setUserRole('member');
         }
       } else {
         setCurrentUser(null);

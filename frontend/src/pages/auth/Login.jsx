@@ -19,10 +19,23 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await login(email, password);
-      navigate('/member');
+      const result = await login(email, password);
+      // Redirect based on user role
+      const role = result.role || 'member';
+      console.log('Login successful, redirecting to:', `/${role}`);
+      navigate(`/${role}`);
     } catch (err) {
-      setError(err.message || 'Failed to login');
+      console.error('Login error:', err);
+      const errorMessage = err.code === 'auth/invalid-credential' 
+        ? 'Invalid email or password. Please check your credentials.'
+        : err.code === 'auth/user-not-found'
+        ? 'No account found with this email.'
+        : err.code === 'auth/wrong-password'
+        ? 'Incorrect password.'
+        : err.code === 'auth/network-request-failed'
+        ? 'Network error. Please check your internet connection.'
+        : err.message || 'Failed to login. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -174,6 +187,7 @@ const Login = () => {
         >
           <p className="text-gray-700 font-bold mb-3 text-center">Demo Credentials</p>
           <div className="space-y-2 text-sm text-gray-600">
+            <p className="text-xs text-gray-500 mb-2">Note: Create a new account with any email/password if Firebase is not configured</p>
             <p><span className="font-semibold">Email:</span> demo@fittrack.com</p>
             <p><span className="font-semibold">Password:</span> demo123456</p>
           </div>
