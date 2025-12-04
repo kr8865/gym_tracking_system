@@ -4,6 +4,43 @@ import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp, Users, Zap, BarChart3, Calendar, Target } from 'lucide-react';
 
 const Landing = () => {
+  // Function to create demo accounts
+  const createDemoAccounts = () => {
+    const demoAccounts = [
+      {
+        uid: 'demo-member-001',
+        email: 'demo@fittrack.com',
+        displayName: 'Demo Member',
+        password: 'demo123456',
+        role: 'member',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        uid: 'demo-trainer-001',
+        email: 'trainer@fittrack.com',
+        displayName: 'Demo Trainer',
+        password: 'trainer123',
+        role: 'trainer',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        uid: 'demo-admin-001',
+        email: 'admin@fittrack.com',
+        displayName: 'Demo Admin',
+        password: 'admin123',
+        role: 'admin',
+        createdAt: new Date().toISOString(),
+      },
+    ];
+
+    localStorage.setItem('mockUsers', JSON.stringify(demoAccounts));
+    alert('✅ Demo accounts created! Check console for credentials.');
+    console.log('✅ Demo accounts created! You can now login with:');
+    demoAccounts.forEach(acc => {
+      console.log(`  ${acc.role.toUpperCase()}: ${acc.email} / ${acc.password}`);
+    });
+  };
+
   const features = [
     {
       icon: TrendingUp,
@@ -74,7 +111,16 @@ const Landing = () => {
               >
                 Sign In
               </Link>
+              <button
+                onClick={createDemoAccounts}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition"
+              >
+                🎯 Create Demo Accounts
+              </button>
             </div>
+            <p className="mt-4 text-sm text-gray-200">
+              Click "Create Demo Accounts" first, then use Login with demo credentials
+            </p>
           </motion.div>
         </div>
       </section>

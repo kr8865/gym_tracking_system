@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
+// Using Mock Auth for demo (no Firebase needed)
+import { AuthProvider } from './context/MockAuthContext'
 import Header from './components/shared/Header'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 import './App.css'
