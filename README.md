@@ -23,7 +23,7 @@ MongoDB
 
 Project Setup Steps
 1. Clone the repository
-git clone https://github.com/your-username/gym-dashboard.git
+git clone https://github.com/kr8865/team-30-Gym_tracking_system
 
 2. Install backend dependencies
 cd backend
